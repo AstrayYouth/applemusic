@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apple Music Link Converter</title>
+    <style>
+        :root {
+            --background: #f5f5f7;
+            --container-bg: white;
+            --text: #1d1d1f;
+            --input-border: #d2d2d7;
+            --result-bg: #f5f5f7;
+        }
+
+        [data-theme="dark"] {
+            --background: #1d1d1f;
+            --container-bg: #2d2d2f;
+            --text: #f5f5f7;
+            --input-border: #454545;
+            --result-bg: #3d3d3f;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: var(--background);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            color: var(--text);
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: var(--text);
+            font-weight: bold;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            background-color: var(--container-bg);
+            color: var(--text);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            width: auto;
+            margin-bottom: 0;
+        }
+
+        button {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0077ed;
+        }
+
+        .telegram-button {
+            background-color: #0088cc;
+            display: none;
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .telegram-button:hover {
+            background-color: #0099dd;
+        }
+
+        .theme-toggle {
+            background-color: transparent;
+            border: 1px solid var(--text);
+            color: var(--text);
+            padding: 8px 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Apple Music Link Converter</h1>
+        <div class="controls">
+            <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Dark Mode</button>
+            <select id="countrySelect">
+                <option value="us">United States (us)</option>
+                <option value="br">Brazil (br)</option>
+                <option value="mx">Mexico (mx)</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label for="musicLink">Enter Apple Music Link:</label>
+            <input type="text" id="musicLink" placeholder="https://music.apple.com/country/album/..." />
+            <div class="error" id="error">Please enter a valid Apple Music link</div>
+        </div>
+        <button onclick="convertLink()">Convert Link</button>
+        <div class="result" id="result"></div>
+        <button id="copyLinkButton" class="telegram-button" onclick="copyLink()">📋 Copy Link</button>
+        <button id="telegramButton" class="telegram-button" onclick="openTelegramBot()">📱 Open in Telegram Bot</button>
+    </div>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="https://buymeacoffee.com/adityaislive" target="_blank" style="display: inline-block; background-color: #ffdd00; color: #000; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">☕ Support the Creator</a>
+    </div>
+    <script>
+        let convertedLink = '';
+
+        function toggleTheme() {
+            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        }
+
+        function convertLink() {
+            const input = document.getElementById('musicLink').value;
+            const country = document.getElementById('countrySelect').value;
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            const telegramButton = document.getElementById('telegramButton');
+            const copyLinkButton = document.getElementById('copyLinkButton');
+
+            if (!input.includes('music.apple.com/')) {
+                error.style.display = 'block';
+                result.textContent = '';
+                telegramButton.style.display = 'none';
+                copyLinkButton.style.display = 'none';
+                return;
+            }
+
+            convertedLink = input.replace(/music\.apple\.com\/([a-z]{2})\//, `music.apple.com/${country}/`);
+            error.style.display = 'none';
+            result.textContent = convertedLink;
+            telegramButton.style.display = 'block';
+            copyLinkButton.style.display = 'block';
+        }
+
+        function copyLink() {
+            if (convertedLink) {
+                navigator.clipboard.writeText(convertedLink).then(() => {
+                    alert('Link copied to clipboard!');
+                }).catch(err => {
+                    console.error('Failed to copy: ', err);
+                });
+            } else {
+                alert('No link available to copy!');
+            }
+        }
+
+        function openTelegramBot() {
+            if (convertedLink) {
+                const encodedLink = encodeURIComponent(convertedLink);
+                const telegramUrl = `https://t.me/GlomaticoAppleMusicBot?start=${encodedLink}`;
+                window.open(telegramUrl, '_blank');
+            } else {
+                alert('No converted link available to open in Telegram!');
+            }
+        }
+    </script>
+</body>
+</html>
