@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +12,9 @@
             --text: #1d1d1f;
             --input-border: #d2d2d7;
             --result-bg: #f5f5f7;
+            --primary-color: #0071e3;
+            --success-color: #4CAF50;
+            --error-color: #F44336;
         }
 
         [data-theme="dark"] {
@@ -19,28 +23,57 @@
             --text: #f5f5f7;
             --input-border: #454545;
             --result-bg: #3d3d3f;
+            --primary-color: #0077ed;
+        }
+
+        [data-theme="retro"] {
+            --background: #e0e0e0;
+            --container-bg: #c0c0c0;
+            --text: #000000;
+            --input-border: #a0a0a0;
+            --result-bg: #d0d0d0;
+            --primary-color: #808080;
+        }
+
+        [data-theme="high-contrast"] {
+            --background: #000000;
+            --container-bg: #FFFFFF;
+            --text: #000000;
+            --input-border: #666666;
+            --result-bg: #EEEEEE;
+            --primary-color: #FFFF00;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             max-width: 800px;
             margin: 0 auto;
             padding: 20px;
             background-color: var(--background);
             transition: all 0.3s ease;
+            color: var(--text);
         }
 
         .container {
             background-color: var(--container-bg);
             padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
         h1 {
-            color: var(--text);
+            color: var(--primary-color);
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1 img {
+            margin-right: 10px;
+            /* Adjust the margin as needed */
         }
 
         .input-group {
@@ -49,77 +82,201 @@
 
         label {
             display: block;
-            margin-bottom: 10px;
-            color: var(--text);
-            font-weight: bold;
+            margin-bottom: 8px;
+            font-weight: 500;
         }
 
-        input[type="text"], select {
+        input[type="text"],
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid var(--input-border);
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 16px;
             margin-bottom: 10px;
             background-color: var(--container-bg);
             color: var(--text);
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: var(--primary-color);
+            outline: none;
         }
 
         .controls {
             display: flex;
             gap: 10px;
             margin-bottom: 20px;
+            align-items: center;
         }
 
         select {
             width: auto;
             margin-bottom: 0;
+            cursor: pointer;
         }
 
         button {
-            background-color: #0071e3;
-            color: white;
+            background-color: var(--primary-color);
+            color: rgb(0, 0, 0);
             border: none;
             padding: 12px 24px;
-            border-radius: 6px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.2s;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
         }
 
         button:hover {
-            background-color: #0077ed;
+            background-color: #000000;
+            transform: translateY(-2px);
+            color: white;
+
+        }
+        button::after
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: 0 1px 4px rgba(248, 243, 243, 0.15);
         }
 
         .telegram-button {
-            background-color: #0088cc;
+            background-color: #2AABEE;
+            color: white;
             display: none;
             margin-top: 15px;
             text-align: center;
             width: 100%;
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
 
         .telegram-button:hover {
-            background-color: #0099dd;
+            background-color: #1b83b9;
         }
 
         .theme-toggle {
             background-color: transparent;
             border: 1px solid var(--text);
             color: var(--text);
-            padding: 8px 16px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
+
+        .theme-toggle:hover {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        .result {
+            background-color: var(--result-bg);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            word-break: break-all;
+            font-size: 16px;
+            color: var(--text);
+        }
+
+        .error {
+            color: var(--error-color);
+            display: none;
+            margin-top: 5px;
+        }
+
+        /* Buy Me a Coffee Button Styling */
+        .bmc-button {
+            display: inline-block;
+            height: 36px;
+            line-height: 37px;
+            padding: 0 25px;
+            background-color: #FFDD00;
+            color: #000;
+            border-radius: 6px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+        }
+
+        .bmc-button:hover,
+        .bmc-button:active,
+        .bmc-button:focus {
+            opacity: 0.85;
+            box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+            color: #000;
+        }
+
+        /* Success Message */
+        .success {
+            color: var(--success-color);
+            display: none;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        #copyLinkButton {
+            background-color: var(--success-color);
+        }
+
+        #copyLinkButton:hover {
+            background-color: #45a049;
+        }
+
+        .creator-info {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 0.8em;
+            color: var(--text);
+        }
+        a:link {
+            background-color: rgb(255, 238, 0);
+            text-decoration: none;
+            color: #000;
+                } 
+        a:hover
+        a:visited {
+                background-color: #f44336;
+                color: white;
+                padding: 4px 4px;
+                text-align: center;
+                text-decoration: none;
+                display: inline-block;
+                }
+
+        
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Apple Music Link Converter</h1>
+        <h1><img src="image.png" alt="Apple Music Logo" width="90">Apple Music Link Converter</h1>
         <div class="controls">
             <button class="theme-toggle" onclick="toggleTheme()">🌓 Toggle Dark Mode</button>
+            <select id="themeSelect" onchange="applyTheme()">
+                <option value="light">Light</option>
+                <option value="dark">Dark</option>
+                <option value="retro">Retro</option>
+                <option value="high-contrast">High Contrast</option>
+            </select>
             <select id="countrySelect">
                 <option value="us">United States (us)</option>
                 <option value="br">Brazil (br)</option>
                 <option value="mx">Mexico (mx)</option>
+                <!-- <option value="in">India (in)</option>
+                <option value="gb">United Kingdom (gb)</option>
+                <option value="ca">Canada (ca)</option>
+                <option value="au">Australia (au)</option>
+                <option value="de">Germany (de)</option>
+                <option value="fr">France (fr)</option>
+                <option value="jp">Japan (jp)</option> -->
             </select>
         </div>
         <div class="input-group">
@@ -129,18 +286,45 @@
         </div>
         <button onclick="convertLink()">Convert Link</button>
         <div class="result" id="result"></div>
+        <div class="success" id="successMessage">Link copied to clipboard!</div>
         <button id="copyLinkButton" class="telegram-button" onclick="copyLink()">📋 Copy Link</button>
         <button id="telegramButton" class="telegram-button" onclick="openTelegramBot()">📱 Open in Telegram Bot</button>
     </div>
     <div style="text-align: center; margin-top: 20px;">
-        <a href="https://buymeacoffee.com/adityaislive" target="_blank" style="display: inline-block; background-color: #ffdd00; color: #000; padding: 10px 20px; border-radius: 6px; text-decoration: none; font-weight: bold;">☕ Support the Creator</a>
+        <a href="https://www.buymeacoffee.com/adityaislive" target="_blank" class="bmc-button">☕ Support the Creator</a>
+    </div>
+    <div class="creator-info">
+        <h3><b>v8</b></h3>
+
+        last updated on : 17th Feb 2025; 10:45:09
+        <br>
+
+        <p>This page is created by <a href="https://www.x.com/@adityakumarv9h7" target="_blank" >adityakumarv9h7</a>, please contact him on X for any problems and suggestions.</p>
     </div>
     <script>
         let convertedLink = '';
 
         function toggleTheme() {
-            document.body.dataset.theme = document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            const currentTheme = document.body.dataset.theme || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.dataset.theme = newTheme;
+            localStorage.setItem('theme', newTheme); // Save theme to local storage
         }
+
+        function applyTheme() {
+            const theme = document.getElementById('themeSelect').value;
+            document.body.dataset.theme = theme;
+            localStorage.setItem('theme', theme); // Save theme to local storage
+        }
+
+        // On load, check local storage for theme
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.body.dataset.theme = savedTheme;
+                document.getElementById('themeSelect').value = savedTheme;
+            }
+        });
 
         function convertLink() {
             const input = document.getElementById('musicLink').value;
@@ -166,11 +350,16 @@
         }
 
         function copyLink() {
+            const successMessage = document.getElementById('successMessage');
             if (convertedLink) {
                 navigator.clipboard.writeText(convertedLink).then(() => {
-                    alert('Link copied to clipboard!');
+                    successMessage.style.display = 'block';
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
                 }).catch(err => {
                     console.error('Failed to copy: ', err);
+                    alert('Failed to copy link to clipboard.');
                 });
             } else {
                 alert('No link available to copy!');
@@ -188,4 +377,5 @@
         }
     </script>
 </body>
+
 </html>
